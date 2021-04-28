@@ -1,12 +1,15 @@
 const express = require('express'),
-    userRoutes = require('./users');
+    tripsRoutes = require('./trips');
 
 var router = express.Router();
 
-
-router.get('/users', userRoutes.read_users);
-router.post('/users', userRoutes.create_user);
-router.put('/users/:id', userRoutes.update_user);
-router.delete('/users/:id', userRoutes.delete_user);
+//change ' _'
+router.get('/trips', tripsRoutes.getTours);
+router.get('/trips', tripsRoutes.getTour);
+router.post('/trips', tripsRoutes.createTour);
+router.post('/trips/:id', tripsRoutes.createSiteInPath);
+router.put('/trips/:id', tripsRoutes.updateTour);
+router.delete('/trips/:id', tripsRoutes.deleteTour);
+router.delete('/trips/:id', tripsRoutes.deleteSite);
 
 module.exports = router;
