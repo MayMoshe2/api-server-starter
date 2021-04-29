@@ -48,5 +48,26 @@
         "country": "Italy"
       }
     ]
+  },
+  "Europe3": {
+    "id": "Europe3",
+    "start_date": "01-07-2021",
+    "duration": 6,
+    "price": 3500,
+    "guide": {
+      "name": "Sara L",
+      "email": "sarah@gmail.com",
+      "cellular": "3333333"
+    },
+    "path": [
+      {
+        "name": "Pizza",
+        "country": "France"
+      },
+      {
+        "name": "Millano",
+        "country": "Italy"
+      }
+    ]
   }
 }
