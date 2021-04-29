@@ -161,43 +161,51 @@ module.exports = {
                 {
                     for(let i in data)
                     {
-                        dataArr.push([i, data[i]]);
+                        dataArr.push(data[i]);
                     }
                     for(let i = 0 ; i < dataArr.length ; i++)
                     {
-                        if(dataArr[i][0] == tripId)
+                        if(dataArr[i].id == tripId)
                         {
-                            for(let j = 0; j < dataArr[i][1].path.length ; j++)
+                            for(let j = 0; j < dataArr[i].path.length ; j++)
                             {
-                                if(dataArr[i][1].path[j].name === siteName)
+                                if(dataArr[i].path[j].name === siteName)
                                 {
-                                    dataArr[i][1].path.splice(j,1);
+                                    dataArr[i].path.splice(j,1);
                                     // dataArr[i][1].path[j];
                                 }
                             }
                         }
                     }
-                    // let index = -1;
-                    // for(let i = 0 ; i < data[tripId].path.length ; i++)
-                    // {
-                    //     if(data[tripId].path[i].name === siteName)
-                    //     {
-                    //         index = i;                            
-                    //     }
-                    // }
-                    // index != -1 ? delete data[tripId].path[index] : res.status(400).send('site name doesnt exist');
-                    // return;
                 }
             }
             else res.sendStatus(400);
             /// nned fix!
-            writeFile(JSON.stringify(JSON.stringify(dataArr, null, 2)), () => {
+            // let tempArr = dataArr.forEach((item)=>{
+
+            // })
+            let resi = dataArr.reduce((toReturn, item)=> toReturn + item.toString(), "");
+            console.log(resi);
+            // console.log(dataArr);
+            dataArr = JSON.stringify(resi, null, 2);
+            // console.log(dataArr);
+            writeFile(dataArr, () => {
                 res.status(200).send(message);
             });
         },
-            true);
+        true);
     },
-
+    
+    // let index = -1;
+    // for(let i = 0 ; i < data[tripId].path.length ; i++)
+    // {
+    //     if(data[tripId].path[i].name === siteName)
+    //     {
+    //         index = i;                            
+    //     }
+    // }
+    // index != -1 ? delete data[tripId].path[index] : res.status(400).send('site name doesnt exist');
+    // return;
     // DELETE
     deleteTour: function (req, res) {
 
