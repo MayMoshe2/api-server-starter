@@ -86,32 +86,35 @@ module.exports = {
 
             // add the new user
             const tripId = req.params["id"];
+            let message = "sites id: " + tripId + "added";
             if (data[tripId])
             {
-                // let dataArr = [];
-                // for(let i in data)
-                // {
-                //     dataArr.push([i, data[i]]);
-                // }
-                // console.log(dataArr[0][1].path[0]);
+                let dataArr = [];
+                for(let i in data)
+                {
+                    dataArr.push([i, data[i]]);
+                }
                 for(let i = 0 ; i < dataArr.length ; i++)
                 {
                     if(dataArr[i][0] == tripId)
                     {
-                        dataArr[i][1].path.append(req.body);
+                        let flag = true;
+                        for(let j = 0; j < dataArr[i][1].path.length ; j++)
+                        {
+                            if(dataArr[i][1].path[j].name === req.body.name)
+                            {
+                                message = "site already exists";
+                                flag = false;
+                            }
+                        }
+                        flag ? dataArr[i][1].path.push(req.body) : null;
                     }
                 }
-                // dataArr[tripId][1].path.append(req.body); //??????????????????
             }
-                // data[tripId] = req.body;
 
-                
             else res.sendStatus(400);
-
-            console.log("after if")
-
             writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send(`sites id:${tripId} added`);
+                res.status(200).send(message);
             });
         },
             true);
@@ -141,6 +144,7 @@ module.exports = {
             const tripId = req.params["id"];
             const siteName = req.params["site_name"];
             let message = "";        
+            let dataArr = [];
             if (data[tripId])
             {
                 if(siteName == null)
@@ -155,21 +159,39 @@ module.exports = {
                 }
                 else
                 {
-                    let index = -1;
-                    for(let i = 0 ; i < data[tripId].path.length ; i++)
+                    for(let i in data)
                     {
-                        if(data[tripId].path[i].name === siteName)
+                        dataArr.push([i, data[i]]);
+                    }
+                    for(let i = 0 ; i < dataArr.length ; i++)
+                    {
+                        if(dataArr[i][0] == tripId)
                         {
-                            index = i;                            
+                            for(let j = 0; j < dataArr[i][1].path.length ; j++)
+                            {
+                                if(dataArr[i][1].path[j].name === siteName)
+                                {
+                                    dataArr[i][1].path.splice(j,1);
+                                    // dataArr[i][1].path[j];
+                                }
+                            }
                         }
                     }
-                    index != -1 ? delete data[tripId].path[index] : res.status(400).send('site name doesnt exist');
-                    return;
+                    // let index = -1;
+                    // for(let i = 0 ; i < data[tripId].path.length ; i++)
+                    // {
+                    //     if(data[tripId].path[i].name === siteName)
+                    //     {
+                    //         index = i;                            
+                    //     }
+                    // }
+                    // index != -1 ? delete data[tripId].path[index] : res.status(400).send('site name doesnt exist');
+                    // return;
                 }
             }
             else res.sendStatus(400);
-
-            writeFile(JSON.stringify(data, null, 2), () => {
+            /// nned fix!
+            writeFile(JSON.stringify(JSON.stringify(dataArr, null, 2)), () => {
                 res.status(200).send(message);
             });
         },

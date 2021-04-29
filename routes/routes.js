@@ -10,6 +10,6 @@ router.post('/createTour/:id', tripsRoutes.createTour);
 router.post('/createSiteInPath/:id', tripsRoutes.createSiteInPath);
 router.put('/updateTour/:id', tripsRoutes.updateTour);
 router.delete('/deleteTour/:id', tripsRoutes.deleteTour);
-router.delete('/deleteSite/:id', tripsRoutes.deleteSite);
+router.delete('/deleteSite/:id/:site_name', tripsRoutes.deleteSite);
 
 module.exports = router;
