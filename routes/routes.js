@@ -4,12 +4,12 @@ const express = require('express'),
 var router = express.Router();
 
 //change ' _'
-router.get('/trips', tripsRoutes.getTours);
-router.get('/trips', tripsRoutes.getTour);
-router.post('/trips', tripsRoutes.createTour);
-router.post('/trips/:id', tripsRoutes.createSiteInPath);
-router.put('/trips/:id', tripsRoutes.updateTour);
-router.delete('/trips/:id', tripsRoutes.deleteTour);
-router.delete('/trips/:id', tripsRoutes.deleteSite);
+router.get('/getTours', tripsRoutes.getTours);
+router.get('/getTour/:id', tripsRoutes.getTour);
+router.post('/createTour/:id', tripsRoutes.createTour);
+router.post('/createSiteInPath/:id', tripsRoutes.createSiteInPath);
+router.put('/updateTour/:id', tripsRoutes.updateTour);
+router.delete('/deleteTour/:id', tripsRoutes.deleteTour);
+router.delete('/deleteSite/:id', tripsRoutes.deleteSite);
 
 module.exports = router;

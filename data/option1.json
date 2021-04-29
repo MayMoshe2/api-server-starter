@@ -1,31 +1,48 @@
 {
-  "Europe1":{
-    "start_date": "01-10-2021",
-    "duration":12,
+  "Europe1": {
+    "id": "Europe1",
+    "start_date": "01-08-2021",
+    "duration": 14,
     "price": 6000,
-    "guide":{
-      "name":"Meir Cohen",
-      "email":"meirc1@gmail.com",
-      "cellular":"4444444"
+    "guide": {
+      "name": "Meir Cohen",
+      "email": "meirc1@gmail.com",
+      "cellular": "4444444"
     },
-    "path":[
-      {"name" :"Pizza","country":"France"},
-      {"name": "Notre-Dame","country":"France"},
-      {"name": "London","country":"England"}
-      ]
-  },
-  "Europe2":{
-    "start_date": "01-06-2021",
-    "duration":6,
-    "price": 3500,
-    "guide":{
-      "name":"Sara L",
-      "email":"sarah@gmail.com",
-      "cellular":"3333333"
-    },
-    "path":[
-     {"name" :"Pizza","country":"France"},
-     {"name": "Millano","country":"Italy"}  
+    "path": [
+      {
+        "name": "Pizza",
+        "country": "France"
+      },
+      {
+        "name": "Notre-Dame",
+        "country": "France"
+      },
+      {
+        "name": "London",
+        "country": "England"
+      }
     ]
-  } 
+  },
+  "Europe2": {
+    "id": "Europe2",
+    "start_date": "01-06-2021",
+    "duration": 6,
+    "price": 3500,
+    "guide": {
+      "name": "Sara L",
+      "email": "sarah@gmail.com",
+      "cellular": "3333333"
+    },
+    "path": [
+      {
+        "name": "Pizza",
+        "country": "France"
+      },
+      {
+        "name": "Millano",
+        "country": "Italy"
+      }
+    ]
+  }
 }

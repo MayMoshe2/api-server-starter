@@ -33,19 +33,28 @@ module.exports = {
                 console.log(err);
                 res.sendStatus(500);                 
             }
-            else
-                res.send(!data? JSON.parse("{}") : JSON.parse(data));//?????????? need to do sort!
+            else 
+            {
+                let tempData = data?  JSON.parse(data) : null;
+                let dataArr = [];
+                for(let i in tempData)
+                {
+                    dataArr.push([i, tempData[i]]);
+                }
+                res.send(!dataArr? "{}" : dataArr.sort()) ;
+            }
         });
     },
-  
+
     // CREATE
    createTour: function (req, res) {
 
         readFile(data => {
-
-            // add the new tour
-            if (!req.body.id) return res.sendStatus(500);   
-            data[req.body.id] = req.body;
+            const tripId = req.params["id"];
+            // console.log(data);
+            if (!tripId) return res.sendStatus(500);   
+            data[tripId] = req.body;
+            // console.log(data);
 
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send('new tour added');
@@ -64,9 +73,6 @@ module.exports = {
             if (data[tripId])
                 data[tripId] = req.body;
             else res.sendStatus(400);
-
-            console.log("after if")
-
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(`trips id:${tripId} updated`);
             });
@@ -81,10 +87,26 @@ module.exports = {
             // add the new user
             const tripId = req.params["id"];
             if (data[tripId])
+            {
+                // let dataArr = [];
+                // for(let i in data)
+                // {
+                //     dataArr.push([i, data[i]]);
+                // }
+                // console.log(dataArr[0][1].path[0]);
+                for(let i = 0 ; i < dataArr.length ; i++)
+                {
+                    if(dataArr[i][0] == tripId)
+                    {
+                        dataArr[i][1].path.append(req.body);
+                    }
+                }
+                // dataArr[tripId][1].path.append(req.body); //??????????????????
+            }
                 // data[tripId] = req.body;
-                data[tripId].path.append(req.params["path"]); //??????????????????
 
-                else res.sendStatus(400);
+                
+            else res.sendStatus(400);
 
             console.log("after if")
 
@@ -106,7 +128,8 @@ module.exports = {
             else
             {
                 const tripId = req.params["id"];
-                res.send(!data[tripId]? JSON.parse("{}") : JSON.parse(data[tripId]));
+                let tempData = JSON.parse(data);
+                res.send(!tempData[tripId]? "{}" :tempData[tripId]);
             }
         });
     },
@@ -116,22 +139,38 @@ module.exports = {
         readFile(data => {
 
             const tripId = req.params["id"];
-            const siteName = req.params["site_name"];        
+            const siteName = req.params["site_name"];
+            let message = "";        
             if (data[tripId])
             {
-                // data[tripId] = req.body;
-                data[tripId].path.append(req.params["path"]); //??????????????????
+                if(siteName == null)
+                {
+                    res.sendStatus(400);
+                    return;
+                }
+                else if(siteName == "")
+                {
+                    delete data[tripId].path;
+                    message = 'tours id:' + tripId + 'removed';
+                }
+                else
+                {
+                    let index = -1;
+                    for(let i = 0 ; i < data[tripId].path.length ; i++)
+                    {
+                        if(data[tripId].path[i].name === siteName)
+                        {
+                            index = i;                            
+                        }
+                    }
+                    index != -1 ? delete data[tripId].path[index] : res.status(400).send('site name doesnt exist');
+                    return;
+                }
             }
             else res.sendStatus(400);
 
-
-
-
-            const tripId = req.params["id"];
-            delete data[tripId];
-
             writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send(`tours id:${tripId} removed`);
+                res.status(200).send(message);
             });
         },
             true);
@@ -141,9 +180,8 @@ module.exports = {
     deleteTour: function (req, res) {
 
         readFile(data => {
-
-            // add the new user
             const tripId = req.params["id"];
+            console.log(data);
             delete data[tripId];
 
             writeFile(JSON.stringify(data, null, 2), () => {
