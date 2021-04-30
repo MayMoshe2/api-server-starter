@@ -159,20 +159,39 @@ module.exports = {
                 }
                 else
                 {
+                    // for(let i in data)
+                    // {
+                    //     dataArr.push(data[i]);
+                    // }
+                    // for(let i = 0 ; i < dataArr.length ; i++)
+                    // {
+                    //     if(dataArr[i].id == tripId)
+                    //     {
+                    //         for(let j = 0; j < dataArr[i].path.length ; j++)
+                    //         {
+                    //             if(dataArr[i].path[j].name === siteName)
+                    //             {
+                    //                 // dataArr[i].path.splice(j,1);
+                    //                 delete dataArr[i][1].path[j];
+                    //             }
+                    //         }
+                    //     }
+                    // }
                     for(let i in data)
                     {
-                        dataArr.push(data[i]);
+                        dataArr.push([i, data[i]]);
                     }
                     for(let i = 0 ; i < dataArr.length ; i++)
                     {
-                        if(dataArr[i].id == tripId)
+                        if(dataArr[i][0] == tripId)
                         {
-                            for(let j = 0; j < dataArr[i].path.length ; j++)
+                            let flag = true;
+                            for(let j = 0; j < dataArr[i][1].path.length ; j++)
                             {
-                                if(dataArr[i].path[j].name === siteName)
+                                if(dataArr[i][1].path[j].name === siteName)
                                 {
-                                    dataArr[i].path.splice(j,1);
-                                    // dataArr[i][1].path[j];
+                                    dataArr[i][1].path.splice(j,1);
+                                    // delete dataArr[i][1].path[j];
                                 }
                             }
                         }
@@ -181,15 +200,9 @@ module.exports = {
             }
             else res.sendStatus(400);
             /// nned fix!
-            // let tempArr = dataArr.forEach((item)=>{
-
-            // })
-            let resi = dataArr.reduce((toReturn, item)=> toReturn + item.toString(), "");
-            console.log(resi);
             // console.log(dataArr);
-            dataArr = JSON.stringify(resi, null, 2);
-            // console.log(dataArr);
-            writeFile(dataArr, () => {
+            // console.log(data);
+            writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(message);
             });
         },
