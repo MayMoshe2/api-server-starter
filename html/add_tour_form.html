@@ -1,0 +1,106 @@
+<!-- index.html -->
+<!doctype html>
+<html>
+<head>
+    <title>ADD trip</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <!-- load bootstrap via CDN -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+    "></script> <!-- load jquery via CDN -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="../js/user_utils.js">
+    </script> <!-- load our javascript file -->
+</head>
+
+<body>
+    <div class="col-sm-6 col-sm-offset-3">
+
+        <h1>add new Tour</h1>
+
+        <!-- OUR FORM -->
+        <form id="tour_form" name="tour_form" method="POST">
+
+            <!-- NAME -->
+            <!-- ID -->
+            <div id="ID-group" class="form-group">
+                <label for="id">ID</label>
+                <input type="text" class="form-control" name="id_field" id="id_field" placeholder="write id here"
+                    required>
+                <!-- errors will go here -->
+            </div>
+
+            <!-- starting date -->
+            <div id="date-group" class="form-group">
+                <label for="date">start date</label>
+                <input type="date" class="form-control" name="date" id="start_date"
+                    required>
+                <!-- errors will go here -->
+            </div>
+
+
+            <!-- duration -->
+            <div id="duration-group" class="form-group">
+                <label for="duration">duration</label>
+                <input type="text" class="form-control" name="duration" id="duration"
+                    placeholder="write duration here">
+                <!-- errors will go here -->
+            </div>
+
+            <!-- price of the trip -->
+            <div id="price-group" class="form-group">
+                <label for="price">price</label>
+                <input type="number" class="form-control" name="price" placeholder="0.0">
+                <!-- errors will go here -->
+            </div>
+           
+            <br>
+            <!-- guide of the trip -->
+            <div>guide</div>
+            <div id="guide-group" class="form-group">
+                <label for="guide">guide name</label>
+                <input type="text" class="form-control" name="guide" placeholder="jhon">
+                <!-- errors will go here -->
+            </div>
+            <!-- guide email-->
+            <div id="guide-group" class="form-group">
+                <label for="guide">guide email</label>
+                <input type="text" class="form-control" name="guide" placeholder="jhon">
+                <!-- errors will go here -->
+            </div>
+            <!-- guide cellular -->
+            <div id="guide-group" class="form-group">
+                <label for="guide">guide cellular</label>
+                <input type="text" class="form-control" name="guide" placeholder="jhon">
+                <!-- errors will go here -->
+            </div>
+
+            <br>
+            <!-- path -->
+            <div>path</div>
+            <!-- site name -->
+            <div id="site-group" class="form-group">
+                <label for="site">site name</label>
+                <input type="text" class="form-control" name="site" placeholder="pizza">
+                <!-- errors will go here -->
+            </div>
+            <!-- site country -->
+            <div id="country-group" class="form-group">
+                <label for="country">site country</label>
+                <input type="text" class="form-control" name="country" placeholder="London">
+                <!-- errors will go here -->
+            </div>
+
+            <div id="add site"></div>
+            <button>add site</button>
+            <br>
+            <br>
+
+
+            <button type="submit" class="btn btn-success">Submit <span class="fa fa-arrow-right"></span></button>
+
+        </form>
+
+    </div>
+</body>
+
+</html>

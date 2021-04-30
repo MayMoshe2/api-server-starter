@@ -68,7 +68,6 @@ module.exports = {
 
         readFile(data => {
 
-            // add the new user
             const tripId = req.params["id"];
             if (data[tripId])
                 data[tripId] = req.body;
@@ -84,7 +83,6 @@ module.exports = {
     {
         readFile(data => {
 
-            // add the new user
             const tripId = req.params["id"];
             let message = "sites id: " + tripId + "added";
             if (data[tripId])
@@ -159,24 +157,6 @@ module.exports = {
                 }
                 else
                 {
-                    // for(let i in data)
-                    // {
-                    //     dataArr.push(data[i]);
-                    // }
-                    // for(let i = 0 ; i < dataArr.length ; i++)
-                    // {
-                    //     if(dataArr[i].id == tripId)
-                    //     {
-                    //         for(let j = 0; j < dataArr[i].path.length ; j++)
-                    //         {
-                    //             if(dataArr[i].path[j].name === siteName)
-                    //             {
-                    //                 // dataArr[i].path.splice(j,1);
-                    //                 delete dataArr[i][1].path[j];
-                    //             }
-                    //         }
-                    //     }
-                    // }
                     for(let i in data)
                     {
                         dataArr.push([i, data[i]]);
@@ -191,7 +171,6 @@ module.exports = {
                                 if(dataArr[i][1].path[j].name === siteName)
                                 {
                                     dataArr[i][1].path.splice(j,1);
-                                    // delete dataArr[i][1].path[j];
                                 }
                             }
                         }
@@ -199,9 +178,7 @@ module.exports = {
                 }
             }
             else res.sendStatus(400);
-            /// nned fix!
-            // console.log(dataArr);
-            // console.log(data);
+           
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(message);
             });
@@ -209,16 +186,7 @@ module.exports = {
         true);
     },
     
-    // let index = -1;
-    // for(let i = 0 ; i < data[tripId].path.length ; i++)
-    // {
-    //     if(data[tripId].path[i].name === siteName)
-    //     {
-    //         index = i;                            
-    //     }
-    // }
-    // index != -1 ? delete data[tripId].path[index] : res.status(400).send('site name doesnt exist');
-    // return;
+    
     // DELETE
     deleteTour: function (req, res) {
 
