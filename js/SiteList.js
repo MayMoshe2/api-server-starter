@@ -1,9 +1,11 @@
 let toursArray = [];
 
-let loadPage = function()
+let loadPage = async function() 
 {
   //get all countries from : http://localhost:3001/getTours
-  getTours();
+  let result =  await getTours() ;
+  console.log("result: " + result);
+  
 
 };
 
@@ -21,21 +23,20 @@ function getTours(){
   //       "profession": "sss",
   //       "id": "dddss"
   //   })});
-  $.ajax({
-    type: 'GET',
-    url: "http://localhost:3001/getTours",
+  // $.ajax({
+  //   type: 'GET',
+  //   url: "http://localhost:3001/getTours",
 
-    success: function (result) {
-      $("#displayTours").html(JSON.stringify(result));
-      console.log(result);
-    },
-    error: function (err) {
-      console.log("err", err);
-    }
-  });
+  //   success: function (result) {
+  //     $("#displayTours").html(JSON.stringify(result));
+  //     console.log(result);
+  //   },
+  //   error: function (err) {
+  //     console.log("err", err);
+  //   }
+  // });
     $.ajax( 
     {
-      type: 'GET',
       url: "localhost:3001/getTours",
       dataType: 'json', // type of response data
       // async: false,
@@ -43,12 +44,14 @@ function getTours(){
         console.log(data);
         toursArray = data;
         $("#displayTours").append(data);
+        return data;
       },
       error: function (jqXhr, textStatus, errorMessage) { // error callback 
         alert('Error: ' + errorMessage);
         // $('p').append('Error: ' + errorMessage);
       }
     });
+    return "failed";
 }
 /*
 function getTourData(event){
