@@ -1,43 +1,57 @@
-let countriesArray = [];
+let toursArray = [];
 
 let loadPage = function()
 {
+  //get all countries from : http://localhost:3001/getTours
+  getTours();
 
-  let allButtons  = $("<div></div>");
- 
-  let letterZ = $("<button></button>").text("Z").attr('id','Z');
-  letterZ.click(letters);
-  allButtons.append(letterZ);
-  //get all countries from : https://travelbriefing.org/countries.json
-  getTrips();
-
-  $("#buttons").append(allButtons);
 };
 
 $(document).ready(loadPage);
 
 
-function getTrips(){
+function getTours(){
+  // $.ajax({
+  //   type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+  //   url: 'localhost:3001/createTour/'+"id", // the url where we want to POST
+  //   contentType: 'application/json',
+  //   data: JSON.stringify({
+  //       "name":"df",
+  //       "password": "jdj",
+  //       "profession": "sss",
+  //       "id": "dddss"
+  //   })});
+  $.ajax({
+    type: 'GET',
+    url: "http://localhost:3001/getTours",
+
+    success: function (result) {
+      $("#displayTours").html(JSON.stringify(result));
+      console.log(result);
+    },
+    error: function (err) {
+      console.log("err", err);
+    }
+  });
     $.ajax( 
     {
-      url: "https://travelbriefing.org/countries.json",
+      type: 'GET',
+      url: "localhost:3001/getTours",
       dataType: 'json', // type of response data
-      async: false,
+      // async: false,
       success: function (data) {   // success callback function
-        // console.log(data);
-        TripsArray = data;
-        $("#displayTrips").append(data);
+        console.log(data);
+        toursArray = data;
+        $("#displayTours").append(data);
       },
       error: function (jqXhr, textStatus, errorMessage) { // error callback 
         alert('Error: ' + errorMessage);
         // $('p').append('Error: ' + errorMessage);
       }
     });
-  }
-
-
-  
-function getTripData(event){
+}
+/*
+function getTourData(event){
     // console.log(event.target.id);
     let data0;
     $.ajax( 
@@ -109,8 +123,6 @@ function getTripData(event){
   $("#displayDetailes").append(table);
 }
 
-
-
 function letters(event){
     $("#displayDetailes").empty();
   
@@ -133,4 +145,6 @@ function letters(event){
   
     $("#displayCountry").empty();
     $("#displayCountry").append(table);
-  }
+}
+
+*/

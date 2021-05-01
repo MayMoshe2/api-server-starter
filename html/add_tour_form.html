@@ -8,8 +8,10 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
     "></script> <!-- load jquery via CDN -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script src="../js/user_utils.js">
+    <script src="../js/tour_utils.js">
     </script> <!-- load our javascript file -->
+        <link href="../public/add_tour_form.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -49,44 +51,44 @@
             <!-- price of the trip -->
             <div id="price-group" class="form-group">
                 <label for="price">price</label>
-                <input type="number" class="form-control" name="price" placeholder="0.0">
+                <input type="number" class="form-control" name="price" id="price" placeholder="0.0">
                 <!-- errors will go here -->
             </div>
            
             <br>
             <!-- guide of the trip -->
-            <div>guide</div>
+            <h3>guide</h3>
             <div id="guide-group" class="form-group">
                 <label for="guide">guide name</label>
-                <input type="text" class="form-control" name="guide" placeholder="jhon">
+                <input type="text" class="form-control" name="guide_name" id="guide_name" placeholder="jhon">
                 <!-- errors will go here -->
             </div>
             <!-- guide email-->
             <div id="guide-group" class="form-group">
                 <label for="guide">guide email</label>
-                <input type="text" class="form-control" name="guide" placeholder="jhon">
+                <input type="text" class="form-control" name="guide_email" id="guide_email" placeholder="jhon">
                 <!-- errors will go here -->
             </div>
             <!-- guide cellular -->
             <div id="guide-group" class="form-group">
                 <label for="guide">guide cellular</label>
-                <input type="text" class="form-control" name="guide" placeholder="jhon">
+                <input type="text" class="form-control" name="guide_cellular" id="guide_cellular" placeholder="jhon">
                 <!-- errors will go here -->
             </div>
 
             <br>
             <!-- path -->
-            <div>path</div>
+            <h3>path</h3>
             <!-- site name -->
             <div id="site-group" class="form-group">
                 <label for="site">site name</label>
-                <input type="text" class="form-control" name="site" placeholder="pizza">
+                <input type="text" class="form-control" name="site" id="site" placeholder="pizza">
                 <!-- errors will go here -->
             </div>
             <!-- site country -->
             <div id="country-group" class="form-group">
                 <label for="country">site country</label>
-                <input type="text" class="form-control" name="country" placeholder="London">
+                <input type="text" class="form-control" name="country" id="country" placeholder="London">
                 <!-- errors will go here -->
             </div>
 
@@ -97,7 +99,7 @@
 
 
             <button type="submit" class="btn btn-success">Submit <span class="fa fa-arrow-right"></span></button>
-
+            
         </form>
 
     </div>
