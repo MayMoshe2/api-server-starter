@@ -5,10 +5,27 @@ let loadPage =  function()
   alert("im here");
   //get all countries from : http://localhost:3001/getTours
   getTours() ;
-
+  
 };
 
-$(document).ready(loadPage);
+// $(document).ready( function(){
+//   $.ajax({
+//     url: "data/option1.jason",
+//     success: function(data){
+//       for(let i in data)
+//       {
+//         toursArray.push([i, data[i]]);
+//       }
+//       let str = "";
+//       for(let i = 0 ; i < Object.keys(data).length ; i++)
+//       {
+//         str += ("<tr><td>" + Object.keys(data) + "</td");
+//       }
+//       $("table").html(str);
+//     },
+// });
+  
+// });
 
 
 function getTours(){

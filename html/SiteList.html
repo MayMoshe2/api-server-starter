@@ -27,6 +27,26 @@
           });
         });
       </script> -->
+      <script>
+          $(document).ready( function(){
+  $.ajax({
+    url: "data/option1.jason",
+    success: function(data){
+      for(let i in data)
+      {
+        toursArray.push([i, data[i]]);
+      }
+      let str = "";
+      for(let i = 0 ; i < Object.keys(data).length ; i++)
+      {
+        str += ("<tr><td>" + Object.keys(data) + "</td");
+      }
+      $("table").html(str);
+    },
+});
+  
+});
+      </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
@@ -43,7 +63,7 @@
             <div id="displayDetailes"></div>
         </section>
         
-  <button>Get External Content</button>
+  <!-- <button>Get External Content</button> -->
     </main>
 </body>
 </html>
