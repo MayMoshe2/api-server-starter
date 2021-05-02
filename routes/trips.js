@@ -187,7 +187,6 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
         true);
     },
     
-    
     // DELETE
     deleteTour: function (req, res) {
 
