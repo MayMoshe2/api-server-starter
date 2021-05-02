@@ -8,9 +8,9 @@ const port = 3001;
 
 const app=express();
 
-app.use('/main', express.static(path.join(__dirname, 'html/index.html')));
+
 app.use('/SiteList', express.static(path.join(__dirname, 'html/SiteList.html')));
-app.use('/add_user', express.static(path.join(__dirname, 'html/add_user_form.html')));
+app.use('/add_tour', express.static(path.join(__dirname, 'html/add_tour_form.html')));
 
 // app.use('/js', express.static(path.join(__dirname, 'js/SiteList.js')));
 app.use('/js', express.static(path.join(__dirname, 'js/11.js')));
