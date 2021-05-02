@@ -24,11 +24,12 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
         });
     };
 
-
-module.exports = {
-    //READ
-    getTours: function (req, res) {
-        fs.readFile(dataPath, 'utf8', (err, data) => {
+    
+    module.exports = {
+        //READ
+        getTours: function (req, res) {
+            fs.readFile(dataPath, 'utf8', (err, data) => {
+            // res.setHeader("Access-Control-Allow-Origin", '*');
             if (err) {
                 console.log(err);
                 res.sendStatus(500);                 

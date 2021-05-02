@@ -1,11 +1,10 @@
 let toursArray = [];
 
-let loadPage = async function() 
+let loadPage =  function() 
 {
+  alert("im here");
   //get all countries from : http://localhost:3001/getTours
-  let result =  await getTours() ;
-  console.log("result: " + result);
-  
+  getTours() ;
 
 };
 
@@ -23,36 +22,45 @@ function getTours(){
   //       "profession": "sss",
   //       "id": "dddss"
   //   })});
-  // $.ajax({
-  //   type: 'GET',
-  //   url: "http://localhost:3001/getTours",
-
-  //   success: function (result) {
-  //     $("#displayTours").html(JSON.stringify(result));
-  //     console.log(result);
-  //   },
-  //   error: function (err) {
-  //     console.log("err", err);
-  //   }
-  // });
-    $.ajax( 
-    {
-      url: "localhost:3001/getTours",
-      dataType: 'json', // type of response data
-      // async: false,
-      success: function (data) {   // success callback function
-        console.log(data);
-        toursArray = data;
-        $("#displayTours").append(data);
-        return data;
-      },
-      error: function (jqXhr, textStatus, errorMessage) { // error callback 
-        alert('Error: ' + errorMessage);
-        // $('p').append('Error: ' + errorMessage);
-      }
-    });
+  $.ajax({
+    type: 'GET',
+    url: "http://localhost:3001/getTours",
+    dataType: 'json',
+    success: function (data) {
+      console.log(data);
+      toursArray = data;
+      $("#displayTours").html(JSON.stringify(data));
+    },
+    error: function (err) {
+      console.log("err", err);
+    }
+  });
+    // $.ajax( 
+    // {
+    //   url: "http://localhost:3001/getTours",
+    //   // dataType: 'json', // type of response data
+    //   // async: false,
+    //   success: function (data) {   // success callback function
+    //     console.log(data);
+    //     toursArray = data;
+    //     $("#displayTours").append(data);
+    //     return data;
+    //   },
+    //   error: function (jqXhr, textStatus, errorMessage) { // error callback 
+    //     alert('Error: ' + errorMessage);
+    //     // $('p').append('Error: ' + errorMessage);
+    //   }
+    // });
     return "failed";
 }
+
+
+
+
+
+
+
+
 /*
 function getTourData(event){
     // console.log(event.target.id);
