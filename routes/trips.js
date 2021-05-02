@@ -186,7 +186,6 @@ module.exports = {
         true);
     },
     
-    
     // DELETE
     deleteTour: function (req, res) {
 

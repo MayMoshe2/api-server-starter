@@ -28,7 +28,7 @@ app.use('/js', express.static(path.join(__dirname, 'js/11.js')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 //restfull 
-//app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
