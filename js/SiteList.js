@@ -2,12 +2,11 @@ let toursArray = [];
 
 let loadPage =  function() 
 {
-  alert("im here");
   //get all countries from : http://localhost:3001/getTours
   getTours() ;
   
 };
-
+$(document).ready( loadPage);
 // $(document).ready( function(){
 //   $.ajax({
 //     url: "data/option1.jason",

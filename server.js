@@ -13,7 +13,7 @@ app.use('/SiteList', express.static(path.join(__dirname, 'html/SiteList.html')))
 app.use('/add_tour', express.static(path.join(__dirname, 'html/add_tour_form.html')));
 
 // app.use('/js', express.static(path.join(__dirname, 'js/SiteList.js')));
-app.use('/js', express.static(path.join(__dirname, 'js/11.js')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
 
 // let client_path = path.join(__dirname , "/html/");
 // app.use('/')
