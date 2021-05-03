@@ -1,177 +1,199 @@
 let toursArray = [];
 
-let loadPage =  function() 
+let loadPage = async function() 
 {
   //get all countries from : http://localhost:3001/getTours
-  getTours() ;
-  
+  let res = await getTours() ;
+
 };
 $(document).ready( loadPage);
-// $(document).ready( function(){
-//   $.ajax({
-//     url: "data/option1.jason",
-//     success: function(data){
-//       for(let i in data)
-//       {
-//         toursArray.push([i, data[i]]);
-//       }
-//       let str = "";
-//       for(let i = 0 ; i < Object.keys(data).length ; i++)
-//       {
-//         str += ("<tr><td>" + Object.keys(data) + "</td");
-//       }
-//       $("table").html(str);
-//     },
-// });
-  
-// });
 
 
-function getTours(){
-  // $.ajax({
-  //   type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
-  //   url: 'localhost:3001/createTour/'+"id", // the url where we want to POST
-  //   contentType: 'application/json',
-  //   data: JSON.stringify({
-  //       "name":"df",
-  //       "password": "jdj",
-  //       "profession": "sss",
-  //       "id": "dddss"
-  //   })});
-  $.ajax({
+ function getTours(){
+    let res =$.ajax({
     type: 'GET',
     url: "http://localhost:3001/getTours",
     dataType: 'json',
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       toursArray = data;
-      $("#displayTours").html(JSON.stringify(data));
+      displayTours();
     },
     error: function (err) {
       console.log("err", err);
     }
   });
-    // $.ajax( 
-    // {
-    //   url: "http://localhost:3001/getTours",
-    //   // dataType: 'json', // type of response data
-    //   // async: false,
-    //   success: function (data) {   // success callback function
-    //     console.log(data);
-    //     toursArray = data;
-    //     $("#displayTours").append(data);
-    //     return data;
-    //   },
-    //   error: function (jqXhr, textStatus, errorMessage) { // error callback 
-    //     alert('Error: ' + errorMessage);
-    //     // $('p').append('Error: ' + errorMessage);
-    //   }
-    // });
-    return "failed";
+  return res;
 }
 
 
-
-
-
-
-
-
-/*
-function getTourData(event){
-    // console.log(event.target.id);
-    let data0;
-    $.ajax( 
-      {
-        url: event.target.id,
-        dataType: 'json', // type of response data
-        async: false,
-        success: function (data) {   // success callback function
-          data0 = data;
-        },
-        error: function (jqXhr, textStatus, errorMessage) { // error callback 
-          alert('Error: ' + errorMessage);
-        }
-      });
-
-      
-    // console.log(data0);
-  let br = $("<br>");
-  let table = $("<table></table>");
-  let tr = $("<tr></tr>");
-  let firstTd = $("<td></td>").text(data0.names.name);
-  tr.append(firstTd);
-    //languages
-  let languages =  $("<div></div>").attr('class',"box");
-  let title = $("<div></div>").text("Languages").attr('class',"title");
-  languages.append(title);
-  let ul = $("<ul></ul>");
-  for (let index = 0; index < data0.language.length; index++) {
-    ul.append($("<li></li>").text(data0.language[index].language));
-  }
-  languages.append(ul);
-  //currency
-  let currency =  $("<div></div>").attr('class',"box");
-  title = $("<div></div>").text("Currency").attr('class',"title");
-  currency.append(title);
-  currency.append( $("<div></div>").text(data0.currency.name));
-  currency.append( $("<div></div>").text(data0.currency.symbol));
-  currency.append( $("<div></div>").text(data0.currency.rate));
-  currency.append(br);
-  //get current month
-  let month = "";
-  month = getCurrentMonth();
-  let weather =  $("<div></div>").attr('class',"box");
-  title = $("<div></div>").text("Weather").attr('class',"title");
-  weather.append(title);
-  weather.append($("<div></div>").text(data0.weather[month].tAvg));
-
-  //neighbors
-  let neighbors =  $("<div></div>").attr('class',"box");
-  title = $("<div></div>").text("Neighbors").attr('class',"title");
-  neighbors.append(title);
-  ul = $("<ul></ul>");
-  for (let index = 0; index < data0.neighbors.length; index++) {
-    ul.append($("<li></li>").text(data0.neighbors[index].name));
-  }
-  neighbors.append(ul);
-  let secondTd = $("<td></td>");
-  secondTd.append(languages);
-  secondTd.append(currency);
-  secondTd.append(weather);
-  secondTd.append(neighbors);
-  
-  
-  tr.append(secondTd);
-  table.append(tr);
-  
- 
+function displayTours(){
+  $("#displayTours").empty();
+  $("#displayTour").empty();
   $("#displayDetailes").empty();
-  $("#displayDetailes").append(table);
+  let allTours = $("<div></div>").attr('class',"allTours");
+
+  for(let i = 0; i< toursArray.length; i++ ){
+    let singleTour = $("<div></div>").attr('class',"singleTour");
+    let tourName = $("<span></span>").attr('class',toursArray[i][0]).text(toursArray[i][0]);
+    let displayTourBt = $("<button></button>").text("Display Tour").attr('class',toursArray[i][0]).attr('id',i);
+    let editTourBt = $("<button></button>").text("Edit").attr('class',toursArray[i][0]);
+    let deleteTourBt = $("<button></button>").text("Delete").attr('class',toursArray[i][0]);
+
+    displayTourBt.click(displayTour);
+    editTourBt.click(editTour);
+    deleteTourBt.click(deleteTour);
+
+
+    singleTour.append(tourName);
+    singleTour.append(displayTourBt);
+    singleTour.append(editTourBt);
+    singleTour.append(deleteTourBt);
+    allTours.append(singleTour);
+
+  }
+$("#displayTours").append(allTours);
 }
 
-function letters(event){
-    $("#displayDetailes").empty();
+const br =  $("<br>");
+function displayTour(event){
+  $("#displayTour").empty();
+  $("#displayDetailes").empty();
+  // console.log(event.target.className );
+
+  let displaySingleTour = $("<div></div>").attr('class',"displaySingleTour");
+  let i = event.target.id;
+  let tourName = $("<div></div>").text(toursArray[i][0]);
+  let start_date =$("<div></div>").text(toursArray[i][1].start_date);
+  let duration =$("<div></div>").text(toursArray[i][1].duration);
+  let price = $("<div></div>").text(toursArray[i][1].price);
+  let guide = $("<button></button>").text("guide").attr('class',toursArray[i][0]);
+  let path = $("<button></button>").text("path").attr('class',toursArray[i][0]);
+  guide.click(displayGuide);
+  path.click(displayPath);
+
+
+  displaySingleTour.append(br);
+  displaySingleTour.append(tourName);
+  displaySingleTour.append(start_date);
+  displaySingleTour.append(duration);
+  displaySingleTour.append(price);
+  displaySingleTour.append(guide);
+  displaySingleTour.append(br);
+  displaySingleTour.append(path);
+
+  $("#displayTour").append(displaySingleTour);
+
+}
+function getId(class_Name){
+  let res = -1;
+  for(let i =0 ; i < toursArray.length; i++){
+    class_Name === toursArray[i][0] ? res= i: null;
+  }
+  return res;
+}
+
+
+
+function editTour(event){
+  console.log(event.target.value);
+  alert("im here1");
   
-    if(countriesArray.length == 0)
-      alert("didnt find countries");
+}
+
+function deleteTour(event){
+  // alert("im here2");
+  $.ajax({
+    type: 'DELETE', // define the type of HTTP verb we want to use (POST for our form)
+    url: '/deleteTour/'+ event.target.className, // the url where we want to POST
+    contentType: 'application/json',
   
-      let countriesByLatter = getCountriesByLetter(event.target.id);
-  
-    let sumOfCountries = countriesByLatter.length;  
-    let table = $("<table></table>");
-    for (let index = 0; index < sumOfCountries; index++) {
-      let tr = $("<tr></tr>");
-      let firstTd = $("<td></td>").text(countriesByLatter[index].name);
-      tr.append(firstTd);
-      let secondTd = $("<td></td>").text("Click for details").attr('id',countriesByLatter[index].url).attr('class',"detalis");
-      secondTd.click(getCountryData);
-      tr.append(secondTd);
-      table.append(tr);
+    processData: false,            
+   // dataType: 'json', // what type of data do we expect back from the server
+    encode: true,
+    success: function(){
+        // location.href = "/main";
+        alert("tour: "+ event.target.className +" had been delete" );
+        let i = getId(event.target.className);
+        toursArray.splice(i,1);
+        
+        displayTours();
+    },
+    error: function( errorThrown ){
+        console.log( errorThrown );
     }
-  
-    $("#displayCountry").empty();
-    $("#displayCountry").append(table);
+  });
+
 }
 
-*/
+
+function displayGuide(event){
+  let i = getId(event.target.className);
+  $("#displayDetailes").empty();
+  let displayDetaile = $("<div></div>").attr('class',"displayDetaile");
+  let name =  $("<div></div>").attr('class',"displayDetaile").text(toursArray[i][1].guide.name);
+  let email =  $("<div></div>").attr('class',"displayDetaile").text(toursArray[i][1].guide.email);
+  let cellular =  $("<div></div>").attr('class',"displayDetaile").text(toursArray[i][1].guide.cellular);
+  displayDetaile.append(name);
+  displayDetaile.append(email);
+  displayDetaile.append(cellular);
+  $("#displayDetailes").append(displayDetaile);  
+}
+
+function displayPath(event){
+  let i = getId(event.target.className);
+  $("#displayDetailes").empty();
+  let displayDetaile = $("<div></div>").attr('class',"displayDetaile");
+ for(let j =0 ; j < toursArray[i][1].path.length; j++){
+    let displaySinglePath = $("<div></div>").attr('class',"displaySinglePath");
+    let name =  $("<span></span>").attr('class',"displayDetaile").text(toursArray[i][1].path[j].name);
+    let country =  $("<span></span>").attr('class',"displayDetaile").text(toursArray[i][1].path[j].country);
+    let delete_Site = $("<button></button>").text("delete Site").attr('class',toursArray[i][0]).attr('id',toursArray[i][1].path[j].name);
+    
+    delete_Site.click(deleteSite);
+    displaySinglePath.append(name);
+    displaySinglePath.append(country);
+    displaySinglePath.append(delete_Site);
+    displayDetaile.append(displaySinglePath);
+
+  }
+
+
+  $("#displayDetailes").append(displayDetaile);
+}
+
+function deleteSite(event){
+
+  $.ajax({
+    type: 'DELETE', // define the type of HTTP verb we want to use (POST for our form)
+    url: '/deleteSite/'+ event.target.className+"/"+event.target.id , // the url where we want to POST
+    contentType: 'application/json',
+    // data: JSON.stringify({
+    //     "id": $("#id_field").val(),
+    //     "start_date": $("#start_date").val(),
+    //     "duration": $("#duration").val(),
+    //     "price": $("#price").val(),
+    //     "guide": guide,
+    //     "path": path,             
+    // }),
+    processData: false,            
+   // dataType: 'json', // what type of data do we expect back from the server
+    encode: true,
+    success: function(){
+        // location.href = "/main";
+        alert("site: "+ event.target.id +" had been delete" );
+        let i = getId(event.target.className);
+        for(let j= 0; j < toursArray[i][1].path.length; j++){
+          toursArray[i][1].path[j].name === event.target.id ? 
+          toursArray[i][1].path.splice(j,1) : null;
+
+        }
+        displayTours();
+    },
+    error: function( errorThrown ){
+        console.log( errorThrown );
+    }
+  });
+
+}
+

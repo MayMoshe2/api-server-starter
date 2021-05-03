@@ -9,6 +9,7 @@ const port = 3001;
 const app=express();
 
 
+app.use('/', express.static(path.join(__dirname, 'html')));
 app.use('/SiteList', express.static(path.join(__dirname, 'html/SiteList.html')));
 app.use('/add_tour', express.static(path.join(__dirname, 'html/add_tour_form.html')));
 

@@ -1,5 +1,6 @@
 {
   "Europe1": {
+    "id": "Europe1",
     "start_date": "01-10-2021",
     "duration": 12,
     "price": 6000,
@@ -9,10 +10,6 @@
       "cellular": "4444444"
     },
     "path": [
-      {
-        "name": "Pizza",
-        "country": "France"
-      },
       {
         "name": "Notre-Dame",
         "country": "France"
@@ -24,14 +21,11 @@
       {
         "name": "Pasta",
         "country": "London"
-      },
-      {
-        "name": "israel",
-        "country": "js"
       }
     ]
   },
   "Europe2": {
+    "id": "Europe2",
     "start_date": "01-06-2021",
     "duration": 6,
     "price": 3500,
