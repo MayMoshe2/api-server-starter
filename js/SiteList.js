@@ -35,7 +35,7 @@ function displayTours(){
 
   for(let i = 0; i< toursArray.length; i++ ){
     let singleTour = $("<div></div>").attr('class',"singleTour");
-    let tourName = $("<span></span>").attr('class',toursArray[i][0]).text(toursArray[i][0]);
+    let tourName = $("<span></span>").attr('class',toursArray[i][0]).text(toursArray[i][0] + "  ");
     let displayTourBt = $("<button></button>").text("Display Tour").attr('class',toursArray[i][0]).attr('id',i);
     let editTourBt = $("<button></button>").text("Edit").attr('class',toursArray[i][0]);
     let deleteTourBt = $("<button></button>").text("Delete").attr('class',toursArray[i][0]);
@@ -63,12 +63,12 @@ function displayTour(event){
 
   let displaySingleTour = $("<div></div>").attr('class',"displaySingleTour");
   let i = event.target.id;
-  let tourName = $("<div></div>").text(toursArray[i][0]);
-  let start_date =$("<div></div>").text(toursArray[i][1].start_date);
-  let duration =$("<div></div>").text(toursArray[i][1].duration);
-  let price = $("<div></div>").text(toursArray[i][1].price);
-  let guide = $("<button></button>").text("guide").attr('class',toursArray[i][0]);
-  let path = $("<button></button>").text("path").attr('class',toursArray[i][0]);
+  let tourName = $("<br><div></div><br>").text(toursArray[i][0]);
+  let start_date =$("<div></div>").text("Start date: " + toursArray[i][1].start_date);
+  let duration =$("<div></div>").text("Duration: " + toursArray[i][1].duration + " Days");
+  let price = $("<div></div>").text("Price: " + toursArray[i][1].price);
+  let guide = $("<br><button></button>").text("Guide").attr('class',toursArray[i][0]);
+  let path = $("<button></button>").text("Path").attr('class',toursArray[i][0]);
   guide.click(displayGuide);
   path.click(displayPath);
 
@@ -85,6 +85,7 @@ function displayTour(event){
   $("#displayTour").append(displaySingleTour);
 
 }
+
 function getId(class_Name){
   let res = -1;
   for(let i =0 ; i < toursArray.length; i++){
@@ -113,7 +114,7 @@ function deleteTour(event){
     encode: true,
     success: function(){
         // location.href = "/main";
-        alert("tour: "+ event.target.className +" had been delete" );
+        alert("tour: "+ event.target.className +" has been deleted" );
         let i = getId(event.target.className);
         toursArray.splice(i,1);
         
@@ -131,9 +132,9 @@ function displayGuide(event){
   let i = getId(event.target.className);
   $("#displayDetailes").empty();
   let displayDetaile = $("<div></div>").attr('class',"displayDetaile");
-  let name =  $("<div></div>").attr('class',"displayDetaile").text(toursArray[i][1].guide.name);
-  let email =  $("<div></div>").attr('class',"displayDetaile").text(toursArray[i][1].guide.email);
-  let cellular =  $("<div></div>").attr('class',"displayDetaile").text(toursArray[i][1].guide.cellular);
+  let name =  $("<div></div>").attr('class',"displayDetaile").text("Name: " + toursArray[i][1].guide.name);
+  let email =  $("<div></div>").attr('class',"displayDetaile").text("Email: " + toursArray[i][1].guide.email);
+  let cellular =  $("<div></div>").attr('class',"displayDetaile").text("Cellular: " + toursArray[i][1].guide.cellular);
   displayDetaile.append(name);
   displayDetaile.append(email);
   displayDetaile.append(cellular);
@@ -146,9 +147,9 @@ function displayPath(event){
   let displayDetaile = $("<div></div>").attr('class',"displayDetaile");
  for(let j =0 ; j < toursArray[i][1].path.length; j++){
     let displaySinglePath = $("<div></div>").attr('class',"displaySinglePath");
-    let name =  $("<span></span>").attr('class',"displayDetaile").text(toursArray[i][1].path[j].name);
-    let country =  $("<span></span>").attr('class',"displayDetaile").text(toursArray[i][1].path[j].country);
-    let delete_Site = $("<button></button>").text("delete Site").attr('class',toursArray[i][0]).attr('id',toursArray[i][1].path[j].name);
+    let name =  $("<span></span>").attr('class',"displayDetaile").text("Name: " + toursArray[i][1].path[j].name + " ");
+    let country =  $("<br><span></span>").attr('class',"displayDetaile").text("Country: " + toursArray[i][1].path[j].country);
+    let delete_Site = $("<br><button></button>").text("delete Site").attr('class',toursArray[i][0]).attr('id',toursArray[i][1].path[j].name);
     
     delete_Site.click(deleteSite);
     displaySinglePath.append(name);
