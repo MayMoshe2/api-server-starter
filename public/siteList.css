@@ -13,16 +13,23 @@ header {
   padding: 4px;
 }
 
-footer{
+footer {
   background-color: rgb(61, 61, 145);
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   padding: 4px;
 }
-main{
+main {
   background-color: rgb(88, 88, 158);
   padding-bottom: 18px;
 }
-.displaySingleTour{
+.displaySingleTour {
   text-align: center;
+}
+#editTour {
+  background-color: rgb(49, 51, 61);
+  /* padding: 10px; */
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
 }

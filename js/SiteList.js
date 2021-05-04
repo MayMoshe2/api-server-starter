@@ -1,14 +1,16 @@
+// Yisrael Bar & May Moshe  04/05/21
 let toursArray = [];
 
 let loadPage = async function() 
 {
+  $("#editTour").hide();
   //get all countries from : http://localhost:3001/getTours
   let res = await getTours() ;
 
 };
 $(document).ready( loadPage);
 
-
+//make an ajax call to get from the server all the tours
  function getTours(){
     let res =$.ajax({
     type: 'GET',
@@ -26,11 +28,12 @@ $(document).ready( loadPage);
   return res;
 }
 
-
+//display on screen all the tours in a list with buttons that display/edit/delete
 function displayTours(){
   $("#displayTours").empty();
   $("#displayTour").empty();
   $("#displayDetailes").empty();
+  closeUpdate();
   let allTours = $("<div></div>").attr('class',"allTours");
 
   for(let i = 0; i< toursArray.length; i++ ){
@@ -56,11 +59,11 @@ $("#displayTours").append(allTours);
 }
 
 const br =  $("<br>");
+//when clicking on a tour - display on screen the tour details
 function displayTour(event){
   $("#displayTour").empty();
   $("#displayDetailes").empty();
-  // console.log(event.target.className );
-
+  closeUpdate();
   let displaySingleTour = $("<div></div>").attr('class',"displaySingleTour");
   let i = event.target.id;
   let tourName = $("<br><div></div><br>").text(toursArray[i][0]);
@@ -71,7 +74,6 @@ function displayTour(event){
   let path = $("<button></button>").text("Path").attr('class',toursArray[i][0]);
   guide.click(displayGuide);
   path.click(displayPath);
-
 
   displaySingleTour.append(br);
   displaySingleTour.append(tourName);
@@ -86,6 +88,7 @@ function displayTour(event){
 
 }
 
+//in case we have just the class name the function return the index in toursArray
 function getId(class_Name){
   let res = -1;
   for(let i =0 ; i < toursArray.length; i++){
@@ -93,15 +96,36 @@ function getId(class_Name){
   }
   return res;
 }
-
-
-
-function editTour(event){
-  console.log(event.target.value);
-  alert("im here1");
-  
+//hide the edit tour fields when not needed
+function closeUpdate(){
+  $("#editTour").hide();
 }
+//put in the edit tour fields the tour content
+function editTour(event){
+  console.log(event.target.className);
+  const i =  getId(event.target.className);
+  $("#displayTour").empty();
+  $("#displayDetailes").empty();
+  $("#editTour").show();
+  $("#id_field").text(toursArray[i][1].id);
+  $("#displayDate").empty();
+  $("#displayDate").append($("<div></div>").text("The current date is: "+toursArray[i][1].start_date));
+  $("#start_date").val(toursArray[i][1].start_date);
+  $("#duration").val(toursArray[i][1].duration);
+  $("#price").val(toursArray[i][1].price);
+  $("#guide_name").val(toursArray[i][1].guide.name);
+  $("#guide_email").val(toursArray[i][1].guide.email);
+  $("#guide_cellular").val(toursArray[i][1].guide.cellular);
+  $("#site").val(toursArray[i][1].path[0].name);
+  $("#country").val(toursArray[i][1].path[0].country);
 
+
+
+
+  // $("#editTour").append(editTour);
+
+}
+//make an ajax call to server to delete tour
 function deleteTour(event){
   // alert("im here2");
   $.ajax({
@@ -126,8 +150,7 @@ function deleteTour(event){
   });
 
 }
-
-
+//when clicking on the guide button display on screen the guide details - name/email/cellular 
 function displayGuide(event){
   let i = getId(event.target.className);
   $("#displayDetailes").empty();
@@ -140,7 +163,7 @@ function displayGuide(event){
   displayDetaile.append(cellular);
   $("#displayDetailes").append(displayDetaile);  
 }
-
+//when clicking on the path button display on screen all the sites - name/country and a delete button next to it 
 function displayPath(event){
   let i = getId(event.target.className);
   $("#displayDetailes").empty();
@@ -158,11 +181,9 @@ function displayPath(event){
     displayDetaile.append(displaySinglePath);
 
   }
-
-
   $("#displayDetailes").append(displayDetaile);
 }
-
+//when clicking on the delete site button it will make an ajax call to server to delete the site and also remove from the toursArray
 function deleteSite(event){
 
   $.ajax({
