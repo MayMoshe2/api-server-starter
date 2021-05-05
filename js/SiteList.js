@@ -14,7 +14,7 @@ $(document).ready( loadPage);
  function getTours(){
     let res =$.ajax({
     type: 'GET',
-    url: "http://localhost:3001/getTours",
+    url: "/getTours",
     dataType: 'json',
     success: function (data) {
       // console.log(data);
@@ -297,7 +297,7 @@ function sortBy(event){
 }
 
 function add_site(){
-  console.log("im here!");
+  // console.log("im here!");
   // process the form
   $.ajax({
       type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
