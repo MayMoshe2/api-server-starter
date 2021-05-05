@@ -27,7 +27,9 @@ main {
   text-align: center;
 }
 #editTour {
-  background-color: rgb(49, 51, 61);
+  background-color: rgb(88, 88, 158);
+
+  /* background-color: rgb(49, 51, 61); */
   /* padding: 10px; */
   margin-top: 20px;
   margin-bottom: 20px;
