@@ -25,7 +25,16 @@
     <main>
         <div>
             <br>
-          <button><a href="./add_tour_form.html">Add New Tour</a></button>
+            <button><a href="./add_tour_form.html">Add New Tour</a></button>
+            <br>
+            <br>
+            <label for="sort">Choose how to sort:</label>
+                <select name="sort" id="sort" onchange="sortBy(event)">
+                  <option value="id_Tour" selected >Tour name</option>
+                  <option value="price">Price</option>
+                  <option value="start_date">Start date</option>
+                  <option value="duration">Duration</option>
+                </select>
         </div>
         <br>
         <section >
@@ -102,20 +111,22 @@
             
                         <!-- <br> -->
                         <!-- path -->
-                        <h3>path</h3>
+                        <div id ="path">                        
+                            <h3>path</h3>
+                        </div>
                         <!-- site name -->
-                        <div id="site-group" class="form-group">
+                        <!-- <div id="site-group" class="form-group">
                             <label for="site">site name:</label>
                             <input type="text" class="form-control" name="site" id="site" placeholder="pizza">
                         </div>
-                        <!-- site country -->
-                        <div id="country-group" class="form-group">
+                        site country -->
+                        <!-- <div id="country-group" class="form-group">
                             <label for="country">site country:</label>
                             <input type="text" class="form-control" name="country" id="country" placeholder="London">
-                        </div>
+                        </div> -->
             
-                        <!-- <div id="add site"></div>
-                        <button>add site</button> -->
+                        <!-- <div id="add site"></div> -->
+                        <button onclick="add_site()">add site</button>
                         <br>
                         <!-- <br> -->
             
@@ -128,7 +139,7 @@
             </div>
         </section>
         
-        <!-- <br> -->
+        <br>
         <button><a href="./add_tour_form.html">Add New Tour</a></button>
     </main>
 </body>

@@ -116,11 +116,25 @@ function editTour(event){
   $("#guide_name").val(toursArray[i][1].guide.name);
   $("#guide_email").val(toursArray[i][1].guide.email);
   $("#guide_cellular").val(toursArray[i][1].guide.cellular);
+
   $("#site").val(toursArray[i][1].path[0].name);
   $("#country").val(toursArray[i][1].path[0].country);
 
+  for(let j = 0 ; j < toursArray[i][1].path.length ; j++)
+  {
+    let newSite = $("<div></div>").attr('class',"newSite");
+    let nameLabel = $("<label for='name'></label>").text("site name");
+    let nameInputType = $("<input type='text' name='name' placeholder='pizza'>")
+    
+    let countryLabel = $("<label for='country'></label>").text("site country");
+    let countryInputType = $("<input type='text' name='country' placeholder='London'>");
+    newSite.append(nameLabel);
+    newSite.append(nameInputType);
+    newSite.append(countryLabel);
+    newSite.append(countryInputType);
+    $("#path").append(newSite);
 
-
+  }
 
   // $("#editTour").append(editTour);
 
@@ -219,3 +233,70 @@ function deleteSite(event){
 
 }
 
+function sortBy(event){
+  let sortType = event.target.value;
+
+  if(sortType === "id_Tour")
+  {
+    toursArray.sort((val1, val2)=>{
+      if(val1[0] > val2[0])
+        return 1;
+      else if(val1[0] < val2[0])
+        return -1;
+      else 
+        return 0;
+    });  
+  }
+  else if(sortType === "price")
+  {
+    toursArray.sort((val1, val2)=>{
+      if(val1[1].price > val2[1].price)
+        return 1;
+      else if(val1[1].price < val2[1].price)
+        return -1;
+      else 
+        return 0;
+    });
+    
+  }
+  else if(sortType === "start_date")
+  {
+    toursArray.sort((val1, val2)=>{
+      if(val1[1].start_date > val2[1].start_date)
+      return 1;
+      else if(val1[1].start_date < val2[1].start_date)
+      return -1;
+      else 
+      return 0;
+    });
+  }
+  else if(sortType === "duration")
+  {
+    toursArray.sort((val1, val2)=>{
+      if(val1[1].duration > val2[1].duration)
+      return 1;
+      else if(val1[1].duration < val2[1].duration)
+      return -1;
+      else 
+      return 0;
+    });
+  }
+  displayTours();
+}
+
+function add_site(){
+console.log("im here!");
+let newSite = $("<div></div>").attr('class',"newSite");
+let nameLabel = $("<label for='name'></label>").text("site name");
+let nameInputType = $("<input type='text' name='name' placeholder='pizza'>")
+
+let countryLabel = $("<label for='country'></label>").text("site country");
+let countryInputType = $("<input type='text' name='country' placeholder='London'>");
+
+newSite.append(nameLabel);
+newSite.append(nameInputType);
+newSite.append(countryLabel);
+newSite.append(countryInputType);
+$("#path").append(newSite);
+
+}
