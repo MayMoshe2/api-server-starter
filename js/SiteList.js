@@ -102,7 +102,6 @@ function closeUpdate(){
 }
 //put in the edit tour fields the tour content
 function editTour(event){
-  console.log(event.target.className);
   const i =  getId(event.target.className);
   $("#displayTour").empty();
   $("#displayDetailes").empty();
@@ -117,17 +116,17 @@ function editTour(event){
   $("#guide_email").val(toursArray[i][1].guide.email);
   $("#guide_cellular").val(toursArray[i][1].guide.cellular);
 
-  $("#site").val(toursArray[i][1].path[0].name);
-  $("#country").val(toursArray[i][1].path[0].country);
+  // $("#site").val(toursArray[i][1].path[0].name);
+  // $("#country").val(toursArray[i][1].path[0].country);
 
   for(let j = 0 ; j < toursArray[i][1].path.length ; j++)
   {
     let newSite = $("<div></div>").attr('class',"newSite");
     let nameLabel = $("<label for='name'></label>").text("site name");
-    let nameInputType = $("<input type='text' name='name' placeholder='pizza'>")
-    
+    let nameInputType = $("<input type='text' name='name'>").val(toursArray[i][1].path[j].name).attr('class',"site");
+      
     let countryLabel = $("<label for='country'></label>").text("site country");
-    let countryInputType = $("<input type='text' name='country' placeholder='London'>");
+    let countryInputType = $("<input type='text' name='country'>").val(toursArray[i][1].path[j].country).attr('class',"country");
     newSite.append(nameLabel);
     newSite.append(nameInputType);
     newSite.append(countryLabel);

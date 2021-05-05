@@ -35,8 +35,8 @@ $(document).ready(function () {
           "cellular": $("#guide_cellular").val(),
         }
         let singlePath = {
-          "name": $("#site").val(),
-          "country": $("#country").val(),
+          "name": $(".site").val(),
+          "country": $(".country").val(),
         }
         let path = [];
         path.push(singlePath);
