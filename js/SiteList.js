@@ -6,7 +6,7 @@ let loadPage = async function()
   $("#editTour").hide();
   //get all countries from : http://localhost:3001/getTours
   let res = await getTours() ;
-
+  updateTourRequest();
 };
 $(document).ready( loadPage);
 
@@ -34,6 +34,7 @@ function displayTours(){
   $("#displayTour").empty();
   $("#displayDetailes").empty();
   closeUpdate();
+  closeAddSite();
   let allTours = $("<div></div>").attr('class',"allTours");
 
   for(let i = 0; i< toursArray.length; i++ ){
@@ -42,16 +43,18 @@ function displayTours(){
     let displayTourBt = $("<button></button>").text("Display Tour").attr('class',toursArray[i][0]).attr('id',i);
     let editTourBt = $("<button></button>").text("Edit").attr('class',toursArray[i][0]);
     let deleteTourBt = $("<button></button>").text("Delete").attr('class',toursArray[i][0]);
+    let addSiteBt = $("<button></button>").text("Add Site").attr('class',toursArray[i][0]);
 
     displayTourBt.click(displayTour);
     editTourBt.click(editTour);
     deleteTourBt.click(deleteTour);
-
+    addSiteBt.click(openAddSite);
 
     singleTour.append(tourName);
     singleTour.append(displayTourBt);
     singleTour.append(editTourBt);
     singleTour.append(deleteTourBt);
+    singleTour.append(addSiteBt);
     allTours.append(singleTour);
 
   }
@@ -61,9 +64,12 @@ $("#displayTours").append(allTours);
 const br =  $("<br>");
 //when clicking on a tour - display on screen the tour details
 function displayTour(event){
+  let hideDetails = $("<button></button>").text("Hide Details");
+  hideDetails.click(hideTourDetails);
   $("#displayTour").empty();
   $("#displayDetailes").empty();
   closeUpdate();
+  closeAddSite();
   let displaySingleTour = $("<div></div>").attr('class',"displaySingleTour");
   let i = event.target.id;
   let tourName = $("<br><div></div><br>").text(toursArray[i][0]);
@@ -75,6 +81,9 @@ function displayTour(event){
   guide.click(displayGuide);
   path.click(displayPath);
 
+  displaySingleTour.append($("<hr>"));
+  displaySingleTour.append(br);
+  displaySingleTour.append(hideDetails);
   displaySingleTour.append(br);
   displaySingleTour.append(tourName);
   displaySingleTour.append(start_date);
@@ -83,6 +92,7 @@ function displayTour(event){
   displaySingleTour.append(guide);
   displaySingleTour.append(br);
   displaySingleTour.append(path);
+  // displaySingleTour.append(br);
 
   $("#displayTour").append(displaySingleTour);
 
@@ -100,9 +110,12 @@ function getId(class_Name){
 function closeUpdate(){
   $("#editTour").hide();
 }
+let saveId = -1;
 //put in the edit tour fields the tour content
 function editTour(event){
+  closeAddSite();
   const i =  getId(event.target.className);
+  saveId = i;
   $("#displayTour").empty();
   $("#displayDetailes").empty();
   $("#editTour").show();
@@ -122,11 +135,11 @@ function editTour(event){
   for(let j = 0 ; j < toursArray[i][1].path.length ; j++)
   {
     let newSite = $("<div></div>").attr('class',"newSite");
-    let nameLabel = $("<label for='name'></label>").text("site name");
-    let nameInputType = $("<input type='text' name='name'>").val(toursArray[i][1].path[j].name).attr('class',"site");
+    let nameLabel = $("<label for='name'></label>").text("Site Name: ");
+    let nameInputType = $("<span type='text' name='name'></span>").text(toursArray[i][1].path[j].name + ", ").attr('class',"site");
       
-    let countryLabel = $("<label for='country'></label>").text("site country");
-    let countryInputType = $("<input type='text' name='country'>").val(toursArray[i][1].path[j].country).attr('class',"country");
+    let countryLabel = $("<label for='country'></label>").text("Site Country: ");
+    let countryInputType = $("<span type='text' name='country'></span>").text(toursArray[i][1].path[j].country + " ").attr('class',"country");
     newSite.append(nameLabel);
     newSite.append(nameInputType);
     newSite.append(countryLabel);
@@ -284,18 +297,91 @@ function sortBy(event){
 }
 
 function add_site(){
-console.log("im here!");
-let newSite = $("<div></div>").attr('class',"newSite");
-let nameLabel = $("<label for='name'></label>").text("site name");
-let nameInputType = $("<input type='text' name='name' placeholder='pizza'>")
+  console.log("im here!");
+  // process the form
+  $.ajax({
+      type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+      url: '/createSiteInPath/'+ $("#site_id").text(), // the url where we want to POST
+      contentType: 'application/json',
+      data: JSON.stringify({
+        "name": $("#site").val(),
+        "country": $("#country").val(),  
+      }),
+      processData: false,            
+    // dataType: 'json', // what type of data do we expect back from the server
+      encode: true,
+      success: function(data){
+          console.log(data);
+          location.href = "/SiteList";
 
-let countryLabel = $("<label for='country'></label>").text("site country");
-let countryInputType = $("<input type='text' name='country' placeholder='London'>");
+      },
+      error: function(errorThrown ){
+          console.log( errorThrown );
+      }
+  });
+  closeAddSite();
+}
 
-newSite.append(nameLabel);
-newSite.append(nameInputType);
-newSite.append(countryLabel);
-newSite.append(countryInputType);
-$("#path").append(newSite);
+
+function updateTourRequest(){
+  $('#tour_form').submit(function (event) {
+    // if(!$("#tour_form").valid()) return;
+  
+    console.log("in submit");
+    let guide ={
+      "name": $("#guide_name").val(),
+      "email": $("#guide_email").val(),
+      "cellular": $("#guide_cellular").val(),
+    }
+    // let singlePath = {
+    //   "name": $(".site").val(),
+    //   "country": $(".country").val(),
+    // }
+    let path = toursArray[saveId][1].path;
+    // path.push(singlePath);
+    
+    // process the form
+    $.ajax({
+        type: 'PUT', // define the type of HTTP verb we want to use (POST for our form)
+        url: '/updateTour/'+ $("#id_field").text(), // the url where we want to POST
+        contentType: 'application/json',
+        data: JSON.stringify({
+            "id": $("#id_field").text(),
+            "start_date": $("#start_date").val(),
+            "duration": $("#duration").val(),
+            "price": $("#price").val(),
+            "guide": guide,
+            "path": path,             
+        }),
+        processData: false,            
+       // dataType: 'json', // what type of data do we expect back from the server
+        encode: true,
+        success: function( data ){
+            console.log(data);
+            location.href = "/SiteList";
+  
+        },
+        error: function( errorThrown ){
+            console.log( errorThrown );
+        }
+    })
+      
+    // stop the form from submitting the normal way and refreshing the page
+    event.preventDefault();
+  });
+
+}
+
+function closeAddSite(){
+  $("#add_site").hide();
+}
+function openAddSite(event){
+  closeUpdate();
+  $("#add_site").show();
+  $("#site_id").text(event.target.className);
+}
+
+function hideTourDetails(){
+  $("#displayTour").empty();
 
 }
