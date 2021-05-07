@@ -7,6 +7,8 @@ let saveId = -1;
 
 let loadPage =  function() 
 {
+ 
+
   $("#editTour").hide();
   //get all tours from : /getTours
   getTours() ;
@@ -296,32 +298,37 @@ function sortBy(event){
 }
 //make an ajax call type post to server to add a new site
 function add_site(){
-  // process the form
-  $.ajax({
-      type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
-      url: '/createSiteInPath/'+ $("#site_id").text(), // the url where we want to POST
-      contentType: 'application/json',
-      data: JSON.stringify({
-        "name": $("#site").val(),
-        "country": $("#country").val(),  
-      }),
-      processData: false,            
-    // dataType: 'json', // what type of data do we expect back from the server
-      encode: true,
-      success: function(data){
-          console.log(data);
-          location.href = "/SiteList";
+ 
+  $('#add_site_form').submit(function (event) {
+    if(!$("#add_site_form").valid()) return;
+    $.ajax({
+        type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+        url: '/createSiteInPath/'+ $("#site_id").text(), // the url where we want to POST
+        contentType: 'application/json',
+        data: JSON.stringify({
+          "name": $("#site").val(),
+          "country": $("#country").val(),  
+        }),
+        processData: false,            
+      // dataType: 'json', // what type of data do we expect back from the server
+        encode: true,
+        success: function(data){
+            console.log(data);
+            location.href = "/SiteList";
 
-      },
-      error: function(errorThrown ){
-          console.log( errorThrown );
-      }
+        },
+        error: function(errorThrown ){
+            console.log( errorThrown );
+        }
+      })
+      // stop the form from submitting the normal way and refreshing the page
+      event.preventDefault();
   });
   closeAddSite();
 }
 //make an ajax call type put to update a tour
 function updateTourRequest(){
-  // updateValidation();
+  updateValidation();
   $('#tour_form').submit(function (event) {
     if(!$("#tour_form").valid()) return;
   
@@ -372,6 +379,30 @@ function closeAddSite(){
 //show the add site section
 function openAddSite(event){
   closeUpdate();
+   // process the form
+   $("form[name='add_site']").validate({
+    rules: {
+      "site": {
+        required: true,
+        digits: false,
+        minlength: 2
+      },
+      "country": {
+        required: true,
+        digits: false,
+        minlength: 2
+      },
+    },
+    // Specify validation error messages
+    messages: {       
+      site:{
+        minlength: "Your name must be at least 2 characters long",
+      },
+      country:{
+        minlength: "Your name must be at least 10 characters long",
+      },
+    }
+  });
   $("#add_site").show();
   $("#site_id").text(event.target.className);
 }
@@ -381,7 +412,7 @@ function hideTourDetails(){
   $("#displayDetailes").empty();
 
 }
-
+//on update make sure that all the fileds are vaild if not it will display a message
 function updateValidation (){
   $("form[name='tour_form']").validate({
     // Specify validation rules
