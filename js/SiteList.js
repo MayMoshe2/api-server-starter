@@ -7,8 +7,6 @@ let saveId = -1;
 
 let loadPage =  function() 
 {
- 
-
   $("#editTour").hide();
   //get all tours from : /getTours
   getTours() ;
@@ -380,7 +378,7 @@ function closeAddSite(){
 function openAddSite(event){
   closeUpdate();
    // process the form
-   $("form[name='add_site']").validate({
+   $("form[name='add_site0']").validate({
     rules: {
       "site": {
         required: true,

@@ -125,13 +125,13 @@ $(document).ready(function () {
             processData: false,            
            // dataType: 'json', // what type of data do we expect back from the server
             encode: true,
-            success: function( data, textStatus, jQxhr ){
-                console.log(data);
+            success: function( data ){
+                alert(data);
                 location.href = "/SiteList";
 
             },
-            error: function( jqXhr, textStatus, errorThrown ){
-                console.log( errorThrown );
+            error: function( jqXhr, textStatus, errorThrown){
+                alert( errorThrown);
             }
         })
           

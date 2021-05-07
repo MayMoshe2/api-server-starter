@@ -29,8 +29,8 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
         //READ
         getTours: function (req, res) {
             fs.readFile(dataPath, 'utf8', (err, data) => {
-            // res.setHeader("Access-Control-Allow-Origin", '*');
-            if (err) {
+            // console.log("im here!");
+                if (err) {
                 console.log(err);
                 res.sendStatus(500);                 
             }
@@ -53,9 +53,11 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
         readFile(data => {
             const tripId = req.params["id"];
             // console.log(data);
-            if (!tripId) return res.sendStatus(500);   
+            if(!req.body) return res.status(400).send('Body is missing!');
+            if (!tripId) return res.status(400).send('Id is missing!');
+            if(data[tripId]) return res.status(400).send('tour already exists!');
             data[tripId] = req.body;
-            // console.log(data);
+            if(checkReqBody(req) === 400) return res.status(400).send('Body is invalid!');
 
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send('new tour added');
@@ -70,9 +72,13 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
         readFile(data => {
 
             const tripId = req.params["id"];
+            if(!req.body) return res.status(400).send('Body is missing!');
+            if(tripId !== req.body.id) return res.status(400).send('Id is not matching');
+            if (!tripId) return res.status(400).send('Id is missing!');
+            if(checkReqBody(req) === 400) return res.status(400).send('Body isnt valid!');
             if (data[tripId])
                 data[tripId] = req.body;
-            else res.sendStatus(400);
+            else res.status(400).send('Tour doesnt exists!');
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(`trips id:${tripId} updated`);
             });
@@ -85,7 +91,11 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
         readFile(data => {
 
             const tripId = req.params["id"];
-            let message = "sites id: " + tripId + "added";
+            console.log("im here!");
+            if(!req.body) return res.status(400).send('Body is missing!');
+            if (!tripId) return res.status(400).send('Id is missing!');
+            if(!req.body.name || !req.body.country) return res.status(400).send('fields are missing!');
+            let message = "sites id: " + tripId + " added";
             if (data[tripId])
             {
                 let dataArr = [];
@@ -130,8 +140,9 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
             else
             {
                 const tripId = req.params["id"];
+                if (!tripId) return res.status(400).send('Id is missing!');
                 let tempData = JSON.parse(data);
-                res.send(!tempData[tripId]? "{}" :tempData[tripId]);
+                res.send(!tempData[tripId]? "tour doesnt exists!" :tempData[tripId]);
             }
         });
     },
@@ -141,16 +152,13 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
         readFile(data => {
 
             const tripId = req.params["id"];
+            if (!tripId) return res.status(400).send('Id is missing!');            
             const siteName = req.params["site_name"];
             let message = "";        
             let dataArr = [];
             if (data[tripId])
             {
-                if(siteName == null)
-                {
-                    res.sendStatus(400);
-                    return;
-                }
+                if(siteName == null) return res.status(400).send('site name missing!');
                 else if(siteName == "")
                 {
                     delete data[tripId].path;
@@ -166,7 +174,7 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
                     {
                         if(dataArr[i][0] == tripId)
                         {
-                            let flag = true;
+                            // let flag = true;
                             for(let j = 0; j < dataArr[i][1].path.length ; j++)
                             {
                                 if(dataArr[i][1].path[j].name === siteName)
@@ -174,11 +182,12 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
                                     dataArr[i][1].path.splice(j,1);
                                 }
                             }
+                            message = 'site name: ' + siteName + ' removed';
                         }
                     }
                 }
             }
-            else res.sendStatus(400);
+            else return res.status(400).send('Tour doesnt exists!');
            
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(message);
@@ -192,13 +201,25 @@ const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') =
 
         readFile(data => {
             const tripId = req.params["id"];
-            console.log(data);
+            if (!tripId) return res.status(400).send('Id is missing!');
+            if(!data[tripId]) return res.status(400).send('Tour doesnt exist!');
             delete data[tripId];
 
             writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send(`tours id:${tripId} removed`);
+                res.status(200).send(`tours id: ${tripId} removed`);
             });
         },
             true);
     }
 };
+
+function checkReqBody(req){
+    if(!req.body.id || !req.body.start_date || !req.body.duration || !req.body.price || !req.body.guide.name || !req.body.guide.email || !req.body.guide.cellular)
+        return 400;
+    if(!Number.isInteger(Number(req.body.duration)) || !Number.isInteger(Number(req.body.price)) || !Number.isInteger(Number(req.body.guide.cellular))) 
+        return 400;
+    if(req.body.duration <= 0 || req.body.price <= 0 || req.body.guide.cellular.length < 10)
+        return 400;
+    if(!req.body.guide.email.includes("@"))
+        return 400;
+}
