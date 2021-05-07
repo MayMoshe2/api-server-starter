@@ -44,15 +44,15 @@
             <!-- duration -->
             <div id="duration-group" class="form-group">
                 <label for="duration">duration</label>
-                <input type="text" class="form-control" name="duration" id="duration"
-                    placeholder="write duration here">
+                <input type="number" class="form-control" name="duration" id="duration"
+                    placeholder="write duration here" required min="1"> 
                 <!-- errors will go here -->
             </div>
 
             <!-- price of the trip -->
             <div id="price-group" class="form-group">
                 <label for="price">price</label>
-                <input type="number" class="form-control" name="price" id="price" placeholder="0.0">
+                <input type="number" min="1" class="form-control" name="price" id="price" placeholder="0.0" required>
                 <!-- errors will go here -->
             </div>
            
@@ -61,19 +61,19 @@
             <h3>guide</h3>
             <div id="guide-group" class="form-group">
                 <label for="guide">guide name</label>
-                <input type="text" class="form-control" name="guide_name" id="guide_name" placeholder="jhon">
+                <input type="text" class="form-control" name="guide_name" id="guide_name" placeholder="jhon" required>
                 <!-- errors will go here -->
             </div>
             <!-- guide email-->
             <div id="guide-group" class="form-group">
                 <label for="guide">guide email</label>
-                <input type="text" class="form-control" name="guide_email" id="guide_email" placeholder="jhon@gmail.com">
+                <input type="text" class="form-control" name="guide_email" id="guide_email" placeholder="jhon@gmail.com" required>
                 <!-- errors will go here -->
             </div>
             <!-- guide cellular -->
             <div id="guide-group" class="form-group">
                 <label for="guide">guide cellular</label>
-                <input type="text" class="form-control" name="guide_cellular" id="guide_cellular" placeholder="0523332200">
+                <input type="text" class="form-control" name="guide_cellular" id="guide_cellular" placeholder="0523332200" required>
                 <!-- errors will go here -->
             </div>
 

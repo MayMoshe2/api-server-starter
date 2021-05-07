@@ -1,11 +1,15 @@
 // Yisrael Bar & May Moshe  04/05/21
-let toursArray = [];
 
-let loadPage = async function() 
+
+let toursArray = [];
+const br =  $("<br>");
+let saveId = -1;
+
+let loadPage =  function() 
 {
   $("#editTour").hide();
-  //get all countries from : http://localhost:3001/getTours
-  let res = await getTours() ;
+  //get all tours from : /getTours
+  getTours() ;
   updateTourRequest();
 };
 $(document).ready( loadPage);
@@ -27,7 +31,6 @@ $(document).ready( loadPage);
   });
   return res;
 }
-
 //display on screen all the tours in a list with buttons that display/edit/delete
 function displayTours(){
   $("#displayTours").empty();
@@ -60,8 +63,6 @@ function displayTours(){
   }
 $("#displayTours").append(allTours);
 }
-
-const br =  $("<br>");
 //when clicking on a tour - display on screen the tour details
 function displayTour(event){
   let hideDetails = $("<button></button>").text("Hide Details");
@@ -97,7 +98,6 @@ function displayTour(event){
   $("#displayTour").append(displaySingleTour);
 
 }
-
 //in case we have just the class name the function return the index in toursArray
 function getId(class_Name){
   let res = -1;
@@ -110,7 +110,6 @@ function getId(class_Name){
 function closeUpdate(){
   $("#editTour").hide();
 }
-let saveId = -1;
 //put in the edit tour fields the tour content
 function editTour(event){
   closeAddSite();
@@ -244,7 +243,7 @@ function deleteSite(event){
   });
 
 }
-
+//the function sort the toursArray by: id_Tour/price/start_date/duration
 function sortBy(event){
   let sortType = event.target.value;
 
@@ -295,9 +294,8 @@ function sortBy(event){
   }
   displayTours();
 }
-
+//make an ajax call type post to server to add a new site
 function add_site(){
-  // console.log("im here!");
   // process the form
   $.ajax({
       type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
@@ -321,24 +319,20 @@ function add_site(){
   });
   closeAddSite();
 }
-
-
+//make an ajax call type put to update a tour
 function updateTourRequest(){
+  // updateValidation();
   $('#tour_form').submit(function (event) {
-    // if(!$("#tour_form").valid()) return;
+    if(!$("#tour_form").valid()) return;
   
-    console.log("in submit");
+    // console.log("in submit");
     let guide ={
       "name": $("#guide_name").val(),
       "email": $("#guide_email").val(),
       "cellular": $("#guide_cellular").val(),
     }
-    // let singlePath = {
-    //   "name": $(".site").val(),
-    //   "country": $(".country").val(),
-    // }
+    
     let path = toursArray[saveId][1].path;
-    // path.push(singlePath);
     
     // process the form
     $.ajax({
@@ -371,17 +365,117 @@ function updateTourRequest(){
   });
 
 }
-
+//hide the add site section
 function closeAddSite(){
   $("#add_site").hide();
 }
+//show the add site section
 function openAddSite(event){
   closeUpdate();
   $("#add_site").show();
   $("#site_id").text(event.target.className);
 }
-
+//hide the tour deatails section
 function hideTourDetails(){
   $("#displayTour").empty();
+  $("#displayDetailes").empty();
+
+}
+
+function updateValidation (){
+  $("form[name='tour_form']").validate({
+    // Specify validation rules
+    rules: {
+      "id_field": {
+        required: true,
+        digits: false,
+        minlength: 2
+      },
+      "start_date": {
+        required: true,
+        digits: false,
+        minlength: 10
+      },
+      "duration":{
+        required: true,
+        digits: true,   
+        min: 1,
+      },
+      "price":{
+        required: true,
+        digits: true,   
+        min: 1,
+      },
+      "guide_name":{
+        required: true,
+        digits: false,   
+        minlength: 2,
+      },
+      "guide_email":{
+        required: true,
+        digits: false,   
+        minlength: 5,
+        email: true,
+      },
+      "guide_cellular":{
+        required: true,
+        digits: true,   
+        minlength: 10,
+        min: 1,
+      },
+      "site":{
+        required: false,
+        digits: false,   
+        minlength: 2,
+      },
+      
+      "country":{
+        required: false,
+        digits: false,   
+        minlength: 2,
+      },
+      
+      
+      
+    },
+    // Specify validation error messages
+    messages: {       
+      id_field:{
+        minlength: "Your name must be at least 2 characters long",
+      },
+      start_date:{
+        minlength: "Your name must be at least 10 characters long",
+      },
+      duration:{
+        digits:"Please enter only digits",
+        min: "The number heve to be bigger then zero",
+      },
+      price:{
+        digits:"Please enter only digits",
+        min: "The number heve to be bigger then zero",
+
+      },
+      guide_name:{
+        minlength: "Your name must be at least 2 characters long",
+      },
+      guide_email:{
+        minlength: "Your name must be at least 5 characters long",
+        email:"You have email in form of:  NameExample@site.com"
+      
+      },
+      guide_cellular:{
+        minlength: "Your name must be at least 10 characters long",
+        min: "The number heve to be bigger then zero",
+        digits:"Please enter only digits",
+
+      },
+      site:{
+        minlength: "Your name must be at least 2 characters long",
+      },
+      country:{
+        minlength: "Your name must be at least 2 characters long",
+      },
+    },
+  });
 
 }

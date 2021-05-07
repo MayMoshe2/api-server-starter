@@ -3,24 +3,92 @@ $(document).ready(function () {
     $("form[name='tour_form']").validate({
         // Specify validation rules
         rules: {
-          // "name":{
-          //   minlength: 5
-          // },
           "id_field": {
             required: true,
             digits: false,
-            minlength: 6
+            minlength: 2
           },
+          "start_date": {
+            required: true,
+            digits: false,
+            minlength: 10
+          },
+          "duration":{
+            required: true,
+            digits: true,   
+            min: 1,
+          },
+          "price":{
+            required: true,
+            digits: true,   
+            min: 1,
+          },
+          "guide_name":{
+            required: true,
+            digits: false,   
+            minlength: 2,
+          },
+          "guide_email":{
+            required: true,
+            digits: false,   
+            minlength: 5,
+            email: true,
+          },
+          "guide_cellular":{
+            required: true,
+            digits: true,   
+            minlength: 10,
+            min: 1,
+          },
+          "site":{
+            required: false,
+            digits: false,   
+            minlength: 2,
+          },
+          
+          "country":{
+            required: false,
+            digits: false,   
+            minlength: 2,
+          },
+          
+          
           
         },
         // Specify validation error messages
         messages: {       
-          // name: "Your name must be at least 5 characters long",
           id_field:{
-            digits:"Please enter only digits",
-            minlength: "Your name must be at least 6 characters long"
+            minlength: "Your name must be at least 2 characters long",
           },
+          duration:{
+            digits:"Please enter only digits",
+            min: "The number heve to be bigger then zero",
+          },
+          price:{
+            digits:"Please enter only digits",
+            min: "The number heve to be bigger then zero",
+
+          },
+          guide_name:{
+            minlength: "Your name must be at least 2 characters long",
+          },
+          guide_email:{
+            minlength: "Your name must be at least 5 characters long",
+            email:"You have email in form of:  NameExample@site.com"
           
+          },
+          guide_cellular:{
+            minlength: "Your name must be at least 10 characters long",
+            min: "The number heve to be bigger then zero",
+            digits:"Please enter only digits",
+
+          },
+          site:{
+            minlength: "Your name must be at least 2 characters long",
+          },
+          country:{
+            minlength: "Your name must be at least 2 characters long",
+          },
         }
       });
 
@@ -39,7 +107,7 @@ $(document).ready(function () {
           "country": $("#country").val(),
         }
         let path = [];
-        path.push(singlePath);
+        singlePath.name === '' ?null : path.push(singlePath);
 
         // process the form
         $.ajax({
